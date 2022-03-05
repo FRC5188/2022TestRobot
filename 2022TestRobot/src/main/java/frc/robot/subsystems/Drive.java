@@ -60,6 +60,11 @@ public class Drive extends SubsystemBase {
         m_leftSecondary = new VictorSP(1);
         m_rightPrimary = new VictorSP(2);
         m_rightSecondary = new VictorSP(3);
+        
+        m_leftPrimary.setInverted(true);
+        m_rightPrimary.setInverted(true);
+        m_leftSecondary.setInverted(true);
+        m_rightSecondary.setInverted(true);
 
 
         m_drivePID = new PIDController(Constants.PID.DRIVE_PROPORTIONAL_COMPETITION, Constants.PID.DRIVE_INTEGRAL_COMPETITION, Constants.PID.DRIVE_DERIVATIVE_COMPETITION);
