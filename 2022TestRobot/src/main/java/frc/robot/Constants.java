@@ -17,28 +17,6 @@ public final class Constants {
 
     public static final double FALCON_MAX_RPM = 6000;
 
-    public final class PID {
-        public static final double DRIVE_PROPORTIONAL_PRACTICE     = 0.017;
-        public static final double DRIVE_INTEGRAL_PRACTICE         = 0.000;
-        public static final double DRIVE_DERIVATIVE_PRACTICE       = 0.001;
-        public static final double DRIVE_TOLERANCE_PRACTICE        =   1.0;
-
-        public static final double ROTATE_PROPORTIONAL_PRACTICE    = 0.0090;
-        public static final double ROTATE_INTEGRAL_PRACTICE        = 0.0005;
-        public static final double ROTATE_DERIVATIVE_PRACTICE      = 0.0030;
-        public static final double ROTATE_TOLERANCE_PRACTICE       =    1.0;
-
-        public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.017;
-        public static final double DRIVE_INTEGRAL_COMPETITION      = 0.000;
-        public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.001;
-        public static final double DRIVE_TOLERANCE_COMPETITION     =   1.0;
-
-        public static final double ROTATE_PROPORTIONAL_COMPETITION = 0.0090;
-        public static final double ROTATE_INTEGRAL_COMPETITION     = 0.0005;
-        public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.0030;
-        public static final double ROTATE_TOLERANCE_COMPETITION    =    1.0;
-    }
-
 
     public final class ButtonMappings {
         /*
