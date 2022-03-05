@@ -18,21 +18,6 @@ public class RobotContainer {
     private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
     
-    private XboxController m_operatorController = new XboxController(1);
-    /* 
-    Declares the RB Joystick Bumber For The Operator's Controller
-     */
-    private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
-    /*
-    Declares the LB Joystick Bumber For The Operator's Controller
-    */
-    private JoystickButton m_operatorLBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_BUMPER);
-    private double hoodAngle = 0;
-    private double shooterSpeed = 0;
-    private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
-    private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
-    private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
-
 
     public RobotContainer() {
         configureButtonBindings();

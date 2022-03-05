@@ -2,9 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.math.controller.PIDController;
@@ -26,12 +25,11 @@ public class Drive extends SubsystemBase {
         None
     }
 
-    private WPI_TalonFX m_leftPrimary;
-    private WPI_TalonFX m_leftSecondary;
-    private WPI_TalonFX m_rightPrimary;
-    private WPI_TalonFX m_rightSecondary;
+    private VictorSP m_leftPrimary;
+    private VictorSP m_leftSecondary;
+    private VictorSP m_rightPrimary;
+    private VictorSP m_rightSecondary;
 
-    private AHRS m_gyro;
 
     private Solenoid m_leftShifter;
     private Solenoid m_rightShifter; 
@@ -58,26 +56,11 @@ public class Drive extends SubsystemBase {
         */
         
 
-        m_leftPrimary = new WPI_TalonFX(Constants.CAN.LEFT_PRIMARY_DRIVE_ID);
-        m_leftSecondary = new WPI_TalonFX(Constants.CAN.LEFT_SECONDARY_DRIVE_ID);
-        m_rightPrimary = new WPI_TalonFX(Constants.CAN.RIGHT_PRIMARY_DRIVE_ID);
-        m_rightSecondary = new WPI_TalonFX(Constants.CAN.RIGHT_SECONDARY_DRIVE_ID);
+        m_leftPrimary = new VictorSP(0);
+        m_leftSecondary = new VictorSP(1);
+        m_rightPrimary = new VictorSP(2);
+        m_rightSecondary = new VictorSP(3);
 
-        m_gyro = new AHRS();
-
-        m_leftShifter = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.DRIVE_LEFT_SOLENOID);
-        m_rightShifter = new Solenoid(Constants.CAN.REV_PH_ID,PneumaticsModuleType.REVPH, Constants.PCM.DRIVE_RIGHT_SOLENOID);
-
-        m_leftSecondary.follow(m_leftPrimary);
-        m_rightSecondary.follow(m_rightPrimary);
-
-        m_rightPrimary.setInverted(InvertType.InvertMotorOutput);
-        m_rightSecondary.setInverted(InvertType.InvertMotorOutput);
-
-        m_leftPrimary.setNeutralMode(NeutralMode.Brake);
-        m_leftSecondary.setNeutralMode(NeutralMode.Brake);
-        m_rightPrimary.setNeutralMode(NeutralMode.Brake);
-        m_rightSecondary.setNeutralMode(NeutralMode.Brake);
 
         m_drivePID = new PIDController(Constants.PID.DRIVE_PROPORTIONAL_COMPETITION, Constants.PID.DRIVE_INTEGRAL_COMPETITION, Constants.PID.DRIVE_DERIVATIVE_COMPETITION);
         m_drivePID.setTolerance(Constants.PID.DRIVE_TOLERANCE_COMPETITION);
@@ -98,46 +81,9 @@ public class Drive extends SubsystemBase {
         */
     }
 
-    public void resetEncoders() {
-        m_rightPrimary.setSelectedSensorPosition(0);
-        m_leftPrimary.setSelectedSensorPosition(0);
-    }
+ 
 
-    public void resetGyro() {
-        m_gyro.reset();
-    }
-
-    public void drivePIDInit(double distance, boolean resetEncoders) {
-        //distance driving, how much need to rotate, if at all, if reset encoders, reset gyro
-        if (resetEncoders) {
-            resetEncoders();
-        }
-        m_drivePID.setSetpoint(distance);
-    }
-
-    public void rotatePIDInit(double heading, boolean resetGyro) {
-        if (resetGyro) {
-            resetGyro();
-        }
-        m_rotatePID.setSetpoint(heading);
-    }
-
-    public void drivePIDExec() {
-        arcadeDrive(m_drivePID.calculate(getEncoderPosition(EncoderType.Average)), 0);
-    }
-
-    public void rotatePIDExec() {
-        arcadeDrive(0, m_rotatePID.calculate(getGyroPosition()));
-    }
-
-    public boolean atDrivePIDSetpoint() {
-       return m_drivePID.atSetpoint();
-
-    }
-
-    public boolean atRotatePIDSetpoint() {
-        return m_rotatePID.atSetpoint();
-    }
+    
 
     public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifted) {
         /*
@@ -189,49 +135,9 @@ public class Drive extends SubsystemBase {
 		driveRaw(lDrive, rDrive);
 	}
 
-    public double getEncoderPosition(EncoderType measureType) {
-        /*
-        This method is used to get the position of the robot's encoders
-        Since there are times where we might want to look at both left and right encoders as well as only one side, 
-        there is an enumeration named EncoderType that is sent in as a parameter named measureType
-        Use a switch-case to assign values to return (go through cases with every possible enumeration value for EncoderType)
-        Also, make sure to subtract the respective encoder pos variables from the returned value, as that is what allows us to reset the encoders
-        Syntax: switch(measureType) {
-            case OneState:
-                encoderPos = m_leftPrimary.getSelectedSensorPosition();
-                break;
-            case AnotherState:
-                encoderPos = m_rightPrimary.getSelectedSensorPosition();
-                break;
-            default:
-                break;
-        }
-        At the end, however, we have a bit of extra math to do, since there is gearing between the encoder and the wheels
-        On top of that, since there is a high and low gear mode, the gearing for each is different
-        So, the amount that we divide by will change based on m_shifterState
-        */
-        double encoderPos = 0;
+ 
 
-        switch(measureType) {
-            case Left:
-                encoderPos = m_leftPrimary.getSelectedSensorPosition();
-                break;
-            case Right:
-                encoderPos = m_rightPrimary.getSelectedSensorPosition();
-                break;
-            case Average:
-                encoderPos = (m_leftPrimary.getSelectedSensorPosition() + m_rightPrimary.getSelectedSensorPosition()) / 2;
-                break;
-            default:
-                break;
-        }
 
-        return (m_shifterState == ShifterState.Normal) ? encoderPos / 5.6 : encoderPos / 16.36;
-    }
-
-    public double getGyroPosition() {
-        return m_gyro.getAngle();
-    }
 
     private void driveRaw(double left, double right) {
 	    /*
@@ -240,7 +146,7 @@ public class Drive extends SubsystemBase {
         Call the .set(left) for the primary drive motor on the left
         Call the .set(right) for the primary drive motor on the right
 	    */
-        m_leftPrimary.set(left);
+        m_leftPrimary.set(-left);
         m_rightPrimary.set(right);
 	}
 

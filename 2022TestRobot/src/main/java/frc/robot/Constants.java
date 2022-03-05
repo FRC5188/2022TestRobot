@@ -39,34 +39,6 @@ public final class Constants {
         public static final double ROTATE_TOLERANCE_COMPETITION    =    1.0;
     }
 
-    
-
-    public final class CAN {
-        /*
-         * The class that holds the CAN ids for each motor
-         * Most of the motors/motor controllers are labelled with a number, so use that
-         * as ID
-         * Do not use an id of 0; this is a default for things like the PDH, PCM, and
-         * roboRIO, so start at 1
-         * Name example: public static final int LEFT_PRIMARY_DRIVE_ID (name with what
-         * motor does and end with id)
-         */
-
-        
-        public static final int LEFT_PRIMARY_DRIVE_ID = 1;
-        public static final int LEFT_SECONDARY_DRIVE_ID = 2;
-        public static final int RIGHT_PRIMARY_DRIVE_ID = 3;
-        public static final int RIGHT_SECONDARY_DRIVE_ID = 4;
-
-        public static final int INDEX_MOTOR_TOP_ID = 5;
-        public static final int INDEX_MOTOR_BOTTOM_ID = 6;
-
-        public static final int LEFT_FLYWHEEL_ID = 7;
-        public static final int RIGHT_FLYWHEEL_ID = 8;
-
-        public static final int REV_PH_ID = 13;
-    }
-
 
     public final class ButtonMappings {
         /*
